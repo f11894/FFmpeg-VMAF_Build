@@ -24,8 +24,6 @@ jobs:
         rem set HOME=${{ github.workspace }}
         rem set CFLAGS=-flto
         rem set CXXFLAGS=%CFLAGS%
-        set CC=clang
-        set CXX=clang++
         set LDFLAGS=-static -static-libgcc -static-libstdc++ -flto -s
         rem C:\msys64\usr\bin\bash -lc "git clone https://github.com/fraunhoferhhi/xpsnr.git && cp xpsnr/libavfilter/* ffmpeg/libavfilter/"
         C:\msys64\usr\bin\bash -lc "git clone https://code.videolan.org/videolan/x264.git && cd x264 && ./configure --disable-opencl --enable-static --prefix=/mingw64/ && make -j2 && make install"
