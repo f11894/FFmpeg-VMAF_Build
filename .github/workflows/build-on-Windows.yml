@@ -24,7 +24,7 @@ jobs:
         rem set HOME=${{ github.workspace }}
         rem set CFLAGS=-flto
         rem set CXXFLAGS=%CFLAGS%
-        set LDFLAGS=-static -static-libgcc -static-libstdc++ -flto -s
+        set LDFLAGS=-static -static-libgcc -static-libstdc++ -s
         C:\msys64\usr\bin\bash -lc "git clone https://code.videolan.org/videolan/x264.git && cd x264 && ./configure --disable-opencl --enable-static --prefix=/mingw64/ && make -j2 && make install"
         C:\msys64\usr\bin\bash -lc "git clone https://code.videolan.org/videolan/dav1d && cd dav1d && mkdir dav1d_build && cd dav1d_build && meson .. --buildtype release --default-library static --prefix=/mingw64/ && ninja && ninja install"
         C:\msys64\usr\bin\bash -lc "git clone -b ${{ matrix.branch }} https://github.com/Netflix/vmaf && cd vmaf/libvmaf && meson build --buildtype release --default-library static --prefix=/mingw64/ && ninja -vC build install"
