@@ -15,13 +15,22 @@ jobs:
         fetch-depth: 0
     - uses: msys2/setup-msys2@v2
       with:
+        location: D:\msys2_github\
+        update: true
+        install: >-
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-nasm
+            mingw-w64-x86_64-yasm
+            mingw-w64-x86_64-ninja
+            mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-meson
+            git
+            base-devel
+            autotools
         msystem: MINGW64
         path-type: strict
         LDFLAGS: -static -static-libgcc -static-libstdc++ -s
-    - name: Install dependencies
-      shell: msys2 {0}
-      run: |
-        pacman -S --needed mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-x86_64-nasm mingw-w64-x86_64-yasm mingw-w64-x86_64-ninja mingw-w64-x86_64-pkg-config mingw-w64-x86_64-meson git base-devel autotools --noconfirm
     - name: build
       shell: msys2 {0}
       run: |
@@ -43,7 +52,7 @@ jobs:
         meson build --buildtype release --default-library static --prefix=/mingw64/
         ninja -vC build install
         
-        echo Libs.private: -lstdc++>>"C:\msys64\mingw64\lib\pkgconfig\libvmaf.pc"
+        echo Libs.private: -lstdc++>>"D:\msys2_github\msys64\mingw64\lib\pkgconfig\libvmaf.pc"
 
         git clone -b release/4.4 https://git.videolan.org/git/ffmpeg.git
         git clone https://github.com/fraunhoferhhi/xpsnr.git
@@ -51,8 +60,8 @@ jobs:
         cd ffmpeg
         ./configure --disable-debug --disable-w32threads --enable-version3 --enable-gpl --enable-pthreads --enable-libvmaf --enable-libdav1d --enable-libx264 --enable-static --pkg-config-flags=--static
         make -j 2
-        cp C:\msys64\home\%username%\ffmpeg\ffmpeg.exe ffmpeg.exe
-        cp C:\msys64\home\%username%\ffmpeg\ffprobe.exe ffprobe.exe
+        cp D:\msys2_github\msys64\home\$USER\ffmpeg\ffmpeg.exe ffmpeg.exe
+        cp D:\msys2_github\msys64\home\$USER\ffmpeg\ffprobe.exe ffprobe.exe
     - name: Upload result
       uses: actions/upload-artifact@v2
       with:
